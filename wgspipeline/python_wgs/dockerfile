@@ -1,0 +1,19 @@
+# miniconda image with conda
+FROM continuumio/miniconda
+
+# Install basic packages
+RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
+RUN conda update -y conda
+RUN conda install -c anaconda dill networkx numpy scipy pandas seaborn matplotlib pyyaml pytables
+RUN conda install -c bioconda pysam pyvcf
+RUN conda install -c conda-forge pypdf2 pika
+RUN pip install azure-storage azure-batch futures azure-mgmt azure.storage.common azure.keyvault
+RUN conda install -c bioconda bx-python
+RUN conda install -c dranew pygenes
+RUN pip install boto3
+RUN pip install future
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Run python when the container launches
+CMD ["python"]

@@ -1,0 +1,24 @@
+# build on top of out base image
+FROM wgscomputecr.azurecr.io/wgs/python_wgs:v0.0.1
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Install any needed packages specified in requirements.txt
+RUN conda install -c dranew remixt && rm -rf /opt/conda/lib/python2.7/site-packages/remixt*
+RUN apt-get update && apt-get install libc-dev libz-dev -y && apt-get install build-essential -y && rm -rf /var/lib/apt/lists/* && conda install -c bioconda cython
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/pypeliner*
+RUN pip install git+https://github.com/shahcompbio/pypeliner.git@master
+RUN pip install git+https://bitbucket.org/aroth85/biowrappers.git@singlecell
+RUN pip install git+https://github.com/amcpherson/remixt.git@master
+RUN pip install git+https://github.com/shahcompbio/wgs.git@azure2
+RUN pip install dill
+RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME remixt
+
+# Run app.py when the container launches
+CMD ["python"]

@@ -1,0 +1,12 @@
+FROM continuumio/miniconda
+
+RUN conda install -c shahcompbio -c r -c conda-forge -c bioconda r==3.5.1 bioconductor-titan
+
+ADD . /app
+
+RUN cp /app/correctReads.R /app/titan.R /app/plot_titan.R /usr/bin/
+
+ENV NAME titan
+
+CMD ["R"]
+

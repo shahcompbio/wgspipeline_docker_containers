@@ -1,0 +1,16 @@
+# miniconda image with conda
+FROM continuumio/miniconda
+
+# Install basic packages
+RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
+RUN conda update -y conda
+RUN conda install -c aroth85 strelka==1.0.14
+RUN conda install -c conda-forge intervaltree
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# set env name
+ENV NAME strelka
+
+# Run python when the container launches
+CMD ["strelka"]

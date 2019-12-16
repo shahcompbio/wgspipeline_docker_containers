@@ -1,0 +1,13 @@
+# build on top of out base image
+FROM wgscomputecr.azurecr.io/wgs/python_wgs:v0.0.1
+
+# Install any needed packages specified in requirements.txt
+RUN conda install -c conda-forge -c shahcompbio museq intervaltree -y
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME mutationseq
+
+# Run app.py when the container launches
+CMD ["museq"]

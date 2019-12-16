@@ -1,0 +1,12 @@
+# build on top of out base image
+FROM continuumio/miniconda
+
+# Install any needed packages specified in requirements.txt
+RUN conda install -c componc -c bioconda  lumpy-sv=0.2.12
+RUN conda install -c bioconda sambamba
+RUN echo "aliasawk=gawk" >> ~/.bashrc
+# Define environment variable
+#ENV NAME lumpy
+
+# Run app.py when the container launches
+CMD ["lumpy"]
