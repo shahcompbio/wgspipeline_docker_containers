@@ -12,5 +12,5 @@ EXPOSE 80
 # set env name
 ENV NAME picard
 
-# Run python when the container launches
+# Run picard when the container launches
 CMD ["picard"]
