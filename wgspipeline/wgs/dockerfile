@@ -1,5 +1,5 @@
 # build on top of out base image
-FROM wgscomputecr.azurecr.io/wgs/python_wgs:v0.0.1
+FROM wgspipeline/python_wgs:v0.0.2
 
 # Copy the current directory contents into the container at /app
 ADD . /app
