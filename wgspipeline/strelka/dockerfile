@@ -12,5 +12,5 @@ EXPOSE 80
 # set env name
 ENV NAME strelka
 
-# Run python when the container launches
+# Run strelka when the container launches
 CMD ["strelka"]
