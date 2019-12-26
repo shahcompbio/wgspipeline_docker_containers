@@ -8,5 +8,6 @@ RUN cp /app/correctReads.R /app/titan.R /app/plot_titan.R /usr/bin/
 
 ENV NAME titan
 
+# run R by default
 CMD ["R"]
 
