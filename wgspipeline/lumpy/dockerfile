@@ -8,5 +8,5 @@ RUN echo "aliasawk=gawk" >> ~/.bashrc
 # Define environment variable
 #ENV NAME lumpy
 
-# Run app.py when the container launches
+# Run lumpy when the container launches
 CMD ["lumpy"]
