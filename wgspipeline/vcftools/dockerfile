@@ -12,5 +12,5 @@ EXPOSE 80
 # set env name
 ENV NAME vcftools
 
-# Run python when the container launches
+# Run vcftools when the container launches
 CMD ["vcftools"]
