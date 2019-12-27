@@ -1,21 +1,13 @@
-# build on top of out base image
-FROM wgscomputecr.azurecr.io/wgs/python_wgs:v0.0.1
+FROM wgspipeline/python_wgs:v0.0.2
 
-# Copy the current directory contents into the container at /app
-ADD . /app
+RUN apt-get update && apt install build-essential gcc -y && rm -rf /var/lib/apt/lists/*
+RUN conda install -c bioconda -c dranew destruct==0.4.7 blossomv==2.04  -y
+RUN pip install git+https://github.com/shahcompbio/pypeliner.git@v0.5.14
+RUN pip install git+https://github.com/shahcompbio/biowrappers.git@v0.2.2
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@v0.4.7_pypeliner_latest
 
-# Install any needed packages specified in requirements.txt
-RUN conda install -c bioconda -c dranew destruct blossomv -y
-RUN rm -rf /opt/conda/lib/python2.7/site-packages/pypeliner* /opt/conda/lib/python2.7/site-packages/destruct*
-RUN pip install git+https://github.com/shahcompbio/wgs.git@azure2
-RUN pip install git+https://github.com/shahcompbio/pypeliner.git@master
-RUN pip install git+https://bitbucket.org/aroth85/biowrappers.git@singlecell
-RUN pip install git+https://github.com/amcpherson/destruct.git@master
-# Make port 80 available to the world outside this container
 EXPOSE 80
 
-# Define environment variable
 ENV NAME destruct
 
-# Run app.py when the container launches
-CMD ["python"]
+CMD ["destruct"]
