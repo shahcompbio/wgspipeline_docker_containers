@@ -1,5 +1,10 @@
 FROM continuumio/miniconda
 
+RUN apt-get update \
+    && wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.7_all.deb -P ~/Downloads \
+    && apt install ~/Downloads/ttf-mscorefonts-installer_3.7_all.deb -y \
+    && apt-mark hold ttf-mscorefonts-installer && rm -rf /var/lib/apt/lists/*
+
 RUN conda install -c shahcompbio -c r -c conda-forge -c bioconda r==3.5.1 bioconductor-titan
 
 ADD . /app
