@@ -1,0 +1,11 @@
+# build on top of out base image
+FROM r-base
+
+#install r packages
+RUN R -e "install.packages('circlize',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('BiocManager',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('BiocManager'); library('BiocManager'); BiocManager::install('ComplexHeatmap')"
+
+
+# Run lumpy when the container launches
+CMD ["bash"]
