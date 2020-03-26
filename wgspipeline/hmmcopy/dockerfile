@@ -1,0 +1,17 @@
+# miniconda image with conda
+FROM scdnaprod.azurecr.io/singlecellpipeline/r_base:v0.0.1
+
+ADD . /app
+
+# Install basic packages
+RUN conda install -c r -c conda-forge -c bioconda -c shahcompbio -c dranew bioconductor-hmmcopy-single-cell -y
+RUN cp /app/*.R /usr/bin/
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# set env name
+ENV NAME hmmcopy
+
+# Run python when the container launches
+CMD ["hmmcopy_single_cell.R"]
