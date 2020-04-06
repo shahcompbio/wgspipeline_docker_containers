@@ -1,0 +1,15 @@
+# miniconda image with conda
+FROM continuumio/miniconda
+
+# Install basic packages
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.14#egg=pypeliner
+RUN conda update -y conda
+RUN conda install -c bioconda -c conda-forge igvtools
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# set env name
+ENV NAME igvtools
+
+# Run python when the container launches
+CMD ["igvtools"]
