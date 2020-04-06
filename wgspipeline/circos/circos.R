@@ -128,7 +128,9 @@ make_circos = function(copy_number, annotations, svs, outfile, sample_label){
 args <- commandArgs(TRUE)
 annotations <- args[1]
 cn_calls <- args[2]
-sv_calls <- args[2]
+sv_calls <- args[3]
+circos_pdf <- args[4]
+sample_id <- args[5]
 
 annotations = read.csv(annotations, sep = "\t")
 
@@ -136,6 +138,5 @@ cn_calls = read.csv(cn_calls, sep = "\t")
 
 sv_calls = read.csv(sv_calls, sep = "\t")
 
-make_circos(cn_calls, annotations, sv_calls, "example_output.pdf", "example sample")
-
+make_circos(cn_calls, annotations, sv_calls, circos_pdf, sample_id)
 
