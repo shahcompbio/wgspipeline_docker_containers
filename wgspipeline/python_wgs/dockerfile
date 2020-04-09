@@ -4,10 +4,11 @@ FROM continuumio/miniconda3
 # Install basic packages
 RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
 #RUN conda update -y conda
-RUN pip install azure-storage azure-batch futures azure-mgmt azure.storage.common azure.keyvault boto3 future pyvcf fpdf
+RUN pip install azure-storage azure-batch futures azure.identity azure.storage.common azure.keyvault boto3 future pyvcf fpdf intervaltree
 RUN conda install -c anaconda dill networkx numpy scipy pandas seaborn matplotlib pyyaml pytables
 RUN conda install -c bioconda pysam
 RUN conda install -c conda-forge pypdf2 pika
+RUN conda install -c dranew pygenes
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
