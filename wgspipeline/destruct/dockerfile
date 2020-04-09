@@ -1,15 +1,15 @@
-FROM wgspipeline/python_wgs:v0.0.2
+FROM wgspipeline/python_wgs:v0.1.0
 
 ADD . /app
 
 RUN apt-get update && apt install build-essential gcc -y && rm -rf /var/lib/apt/lists/*
-RUN conda install -c bioconda -c dranew destruct==0.4.7 blossomv==2.04  -y
+RUN conda install -c bioconda -c dranew destruct==0.4.18 destruct_utils==0.4.18
 RUN pip install git+https://github.com/shahcompbio/pypeliner.git@v0.5.18
-RUN pip install git+https://github.com/shahcompbio/biowrappers.git@v0.2.2
-RUN rm -rf /opt/conda/lib/python2.7/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@v0.4.7_pypeliner_latest
-RUN cp /app/filter_annotate_breakpoints.py /opt/conda/bin && chmod 777 /opt/conda/bin/filter_annotate_breakpoints.py && pip install 'python-louvain<0.9'
-RUN pip install azure-storage azure-batch futures azure-mgmt azure.storage.common azure.keyvault
-RUN pip install azure.identity
+RUN pip install git+https://github.com/shahcompbio/biowrappers.git@v0.2.4
+RUN rm -rf /opt/conda/lib/python3.7/site-packages/destruct* &&  pip install git+https://github.com/amcpherson/destruct.git@master
+RUN pip install -e git+https://github.com/amcpherson/blossomv.git#egg=blossomv
+RUN pip install networkx==2.1
+RUN cp /app/filter_annotate_breakpoints.py /opt/conda/bin && chmod 777 /opt/conda/bin/filter_annotate_breakpoints.py
 
 EXPOSE 80
 
