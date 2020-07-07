@@ -1,0 +1,21 @@
+# build on top of out base image
+FROM wgspipeline/python_wgs:v0.0.2
+
+# Copy the current directory contents into the container at /app
+
+# Install any needed packages specified in requirements.txt
+RUN rm -rf /opt/conda/lib/python2.7/site-packages/pypeliner* /opt/conda/lib/python2.7/site-packages/single_cell_pipeline* /opt/conda/lib/python2.7/site-packages/biowrappers*
+RUN pip install git+https://github.com/shahcompbio/wgs.git@v0.0.10
+RUN pip install git+https://github.com/shahcompbio/pypeliner.git@v0.5.19
+RUN pip install git+https://github.com/shahcompbio/biowrappers.git@v0.2.4
+RUN pip install azure.identity
+RUN pip install git+https://github.com/shahcompbio/wgs_qc_utils.git@v0.0.2
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME wgs
+
+# Run app.py when the container launches
+CMD ["wgs"]
