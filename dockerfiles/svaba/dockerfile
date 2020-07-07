@@ -1,0 +1,13 @@
+# miniconda image with conda
+FROM continuumio/miniconda3
+
+RUN conda install -c bioconda svaba
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.18#egg=pypeliner
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# set env name
+ENV NAME svaba
+
+# Run python when the container launches
+CMD ["svaba"]
