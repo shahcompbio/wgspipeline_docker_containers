@@ -46,17 +46,6 @@ def makedirs(directory):
             raise
 
 
-def parse_container_name(container_name):
-    container_name_split = container_name.strip('/').split('/')
-
-    assert len(container_name_split) == 2
-
-    namespace = container_name_split[0]
-    container_name = container_name_split[1]
-
-    return namespace, container_name
-
-
 def check_if_tag_valid(container_name, version):
     """
     :param container_name: name of container
@@ -64,9 +53,8 @@ def check_if_tag_valid(container_name, version):
     :param version: version string
     :type version: ver
     """
-    namespace, container_name = parse_container_name(container_name)
 
-    list_of_all_dirs = get_immediate_subdirectories(os.path.join(os.getcwd(), namespace))
+    list_of_all_dirs = get_immediate_subdirectories(os.path.join(os.getcwd(), 'dockerfiles'))
     if container_name not in list_of_all_dirs:
         error_str = 'Could not find directory corresponding to' \
                     ' container {}. Please check the container ' \
@@ -206,28 +194,21 @@ def check_if_aws_repository_exist(container_name):
         run_cmd(['aws', 'ecr', 'create-repository', '--repository-name', container_name])
 
 
-def load_credentials(credentials_yaml):
-    with open(credentials_yaml) as creds:
-        data = yaml.load(creds)
-
-    return data
-
-
-def login_remotes(creds, remotes, tempdir):
+def login_remotes(remotes, tempdir):
     makedirs(tempdir)
     for remote in remotes:
         if 'azurecr.io' in remote:
             log_into_azure_acr(
-                remote, creds['azure']['username'], creds['azure']['password']
+                remote, os.environ['AZURE_USER'], os.environ['AZURE_PASSWORD']
             )
         elif 'amazonaws.com' in remote:
             log_into_aws_acr(
-                tempdir, creds['aws']['username'], creds['aws']['password'],
-                creds['aws']['region']
+                tempdir, os.environ['AWS_USER'], os.environ['AWS_PASSWORD'],
+                os.environ['AWS_REGION']
             )
         else:
             log_into_dockerhub(
-                creds['dockerhub']['username'], creds['dockerhub']['password']
+                os.environ['DOCKERHUB_USER'], os.environ['DOCKERHUB_PASSWORD']
             )
 
 
@@ -248,7 +229,7 @@ def docker_build_and_push_container(
     check_if_tag_valid(container, version)
 
     currentdir = os.getcwd()
-    os.chdir(container)
+    os.chdir(os.path.join('dockerfiles',container))
 
     command = ['docker', 'build', '-t', container, '.']
     run_cmd(command)
@@ -271,8 +252,7 @@ def docker_build_and_push_container(
 
 def main(args):
     container, version = get_latest_tag()
-    credentials = load_credentials(args.credentials)
-    login_remotes(credentials, args.remotes, args.tempdir)
+    login_remotes(args.remotes, args.tempdir)
 
     docker_build_and_push_container(
         container, version, args.remotes
@@ -290,10 +270,6 @@ def parse_args():
     parser.add_argument('--tempdir',
                         required=True,
                         help='''dir to store temp files''')
-
-    parser.add_argument('--credentials',
-                        required=True,
-                        help='''yaml file with credentials''')
 
     parser.add_argument('--remotes',
                         required=True,

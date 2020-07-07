@@ -1,0 +1,9 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  build:
+    commands:
+      - bash -c "docker run -e DOCKERHUB_USER -e DOCKERHUB_PASSWORD -e AZURE_USER -e AZURE_PASSWORD -e AWS_USER -e AWS_PASSWORD -e AWS_REGION -v /var/run/docker.sock:/var/run/docker.sock -v `which docker`:`which docker` -w $PWD -v $PWD:$PWD wgspipeline/jenkins:v0.0.3 python container_builder/build_script.py --tempdir temp --remotes docker.io/wgspipeline"
