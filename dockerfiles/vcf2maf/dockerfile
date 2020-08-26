@@ -1,3 +1,17 @@
-FROM quay.io/biocontainers/vcf2maf:1.6.17--2
+FROM continuumio/miniconda3
 
+# Install basic packages
+RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
+RUN conda update -y conda
+RUN conda install -c shahcompbio -c bioconda vcf2maf_shahcompbio
+RUN rm `which samtools` && apt-get update && apt-get install samtools -y
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.20#egg=pypeliner
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# set env name
+ENV NAME vcf2maf
+
+# Run python when the container launches
+CMD ["vcf2maf"]
 
