@@ -5,7 +5,7 @@ FROM continuumio/miniconda3
 RUN apt-get update && apt-get install -y libltdl7 parallel && rm -rf /var/lib/apt/lists/*
 #RUN conda update -y conda
 RUN conda install -c bioconda gatk4
-RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.18#egg=pypeliner
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.20#egg=pypeliner
 # Make port 80 available to the world outside this container
 EXPOSE 80
 

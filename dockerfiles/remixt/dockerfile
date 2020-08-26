@@ -1,5 +1,5 @@
 # build on top of out base image
-FROM wgscomputecr.azurecr.io/wgs/python_wgs:v0.0.1
+FROM wgspipeline/python_wgs:v0.1.1
 
 # Copy the current directory contents into the container at /app
 ADD . /app
@@ -11,7 +11,7 @@ RUN rm -rf /opt/conda/lib/python2.7/site-packages/pypeliner*
 RUN pip install git+https://github.com/shahcompbio/pypeliner.git@master
 RUN pip install git+https://bitbucket.org/aroth85/biowrappers.git@singlecell
 RUN pip install git+https://github.com/amcpherson/remixt.git@master
-RUN pip install git+https://github.com/shahcompbio/wgs.git@azure2
+RUN pip install git+https://github.com/shahcompbio/wgs.git@master
 RUN pip install dill
 RUN mkdir -p /root/.config/matplotlib && echo "backend : Agg" > /root/.config/matplotlib/matplotlibrc
 # Make port 80 available to the world outside this container

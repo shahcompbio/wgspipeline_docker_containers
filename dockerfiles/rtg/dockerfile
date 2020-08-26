@@ -7,7 +7,7 @@ ADD rtg /app
 RUN  mkdir /usr/share/man/man1/ && apt-get update && apt-get install -y libltdl7 parallel default-jdk && rm -rf /var/lib/apt/lists/*
 #RUN conda update -y conda
 RUN cp -r /app/* /opt/conda/bin/
-RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.18#egg=pypeliner
+RUN pip install -e git+https://github.com/shahcompbio/pypeliner.git@v0.5.20#egg=pypeliner
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
