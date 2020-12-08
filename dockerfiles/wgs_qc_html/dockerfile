@@ -1,0 +1,4 @@
+FROM continuumio/miniconda3
+RUN conda install -c shahcompbio wgs_qc_html
+CMD ['R']
+
